@@ -189,7 +189,7 @@ public class RobotTemplate extends IterativeRobot {
 
     //Runs periodically during teleoperated period
     public void teleopPeriodic() {
-
+        System.out.println(encKicker.get());
     }
 
     //A boolean object, who's value can be changed from inside a function
@@ -416,11 +416,25 @@ public class RobotTemplate extends IterativeRobot {
 
         //mecanumDrive(stickOne.GetRawAxis(2), stickOne.GetRawAxis(1), stickOne.GetRawAxis(3), stickOne.GetRawButton(SLOW_BUTTON), stickOne.GetRawButton(TRACK_TARGET_BUTTON));
 
-        //Temporary mecanum drive
-        jagFrontLeft.set((-stickOne.getRawAxis(2) / 3) + (stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3));
-        jagBackLeft.set((-stickOne.getRawAxis(2) / 3) + (-stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3));
-        jagFrontRight.set((stickOne.getRawAxis(2) / 3) + (stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3));
-        jagBackRight.set((stickOne.getRawAxis(2) /3) + (-stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3));
+        double speedFrontLeft, speedBackLeft, speedFrontRight, speedBackRight;
+
+        //Temporary mecanum drive calculations
+        speedFrontLeft = (-stickOne.getRawAxis(2) / 3) + (stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3);
+        speedBackLeft = (-stickOne.getRawAxis(2) / 3) + (-stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3);
+        speedFrontRight = (stickOne.getRawAxis(2) / 3) + (stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3);
+        speedBackRight = (stickOne.getRawAxis(2) / 3) + (-stickOne.getRawAxis(1) / 3) + (stickOne.getRawAxis(3) / 3);
+
+        //Reverse drive
+        speedFrontLeft = driveReverse ? -speedFrontLeft : speedFrontLeft;
+        speedBackLeft = driveReverse ? -speedBackLeft : speedBackLeft;
+        speedFrontRight = driveReverse ? -speedFrontRight : speedFrontRight;
+        speedBackRight = driveReverse ? -speedBackRight : speedBackRight;
+
+        //Drive motors at calculated speed
+        jagFrontLeft.set(speedFrontLeft);
+        jagBackLeft.set(speedBackLeft);
+        jagFrontRight.set(speedFrontRight);
+        jagBackRight.set(speedBackRight);
 
         double rollerSpeed;
         //If roller in button is pressed then run the roller at 1.0, otherwise 0.0
