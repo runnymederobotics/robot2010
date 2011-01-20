@@ -189,7 +189,11 @@ public class RobotTemplate extends IterativeRobot {
 
     //Runs periodically during teleoperated period
     public void teleopPeriodic() {
-        System.out.println(encKicker.get());
+        System.out.println("Kicker encoder: " + encKicker.get());
+        System.out.println("FL encoder: " + encFrontLeft.pidGet());
+        System.out.println("BL encoder: " + encBackLeft.pidGet());
+        System.out.println("FR encoder: " + encFrontRight.pidGet());
+        System.out.println("BR encoder: " + encBackRight.pidGet());
     }
 
     //A boolean object, who's value can be changed from inside a function
@@ -385,7 +389,7 @@ public class RobotTemplate extends IterativeRobot {
         currentKickState = runKickStateMachine(currentKickState, kickerSetpoint, -encKicker.getRaw(), trigger, ballSensor.get(), forceKick, winch, release);
         
         //Run the winch based on how the kicker state machine wants it to
-        vicKicker.set((winch.get() && !kickerKillSwitch.get()) ? KICKER_POWER : 0.0);
+        //vicKicker.set((winch.get() && !kickerKillSwitch.get()) ? KICKER_POWER : 0.0);
 
         //Releasing this run through and didnt the last run through
         final boolean releaseTriggered = release.get() && !prevRelease;
